@@ -1,13 +1,20 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace NoteMovementFix.Patches
 {
     [HarmonyPatch(typeof(PlayerTransforms), nameof(PlayerTransforms.GetZPos))]
     internal class Yeet
     {
-        static void Prefix(ref float start, ref float end, ref float headOffsetZ, ref float t)
+        static bool Prefix(ref float start, ref float end, ref float headOffsetZ, ref float t, ref float __result)
         {
-            headOffsetZ = 0f;
+            if(Config.Instance.Enabled)
+            {
+                __result = Mathf.LerpUnclamped(start + headOffsetZ, end + headOffsetZ, t);
+                return false;
+            }
+
+            return true;
         }
     }
 }
