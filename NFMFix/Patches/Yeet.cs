@@ -22,24 +22,20 @@ namespace NoteMovementFix.Patches
 
     // Fix NoteFloorMovement to match player position
     [HarmonyPatch(typeof(NoteFloorMovement), nameof(NoteFloorMovement.ManualUpdate))]
-    internal class Yeet3
+    internal class Yeet2
     {
         static bool Prefix(ref IAudioTimeSource ____audioTimeSyncController, ref float ____startTime, ref float ____moveDuration, ref Vector3 ____startPos, ref Vector3 ____endPos, ref Vector3 __result,
             ref Vector3 ____localPosition, ref NoteFloorMovement __instance, ref Quaternion ____worldRotation, ref Action ___floorMovementDidFinishEvent)
         {
-            if (Config.Instance.Enabled)
+            if (Config.Instance.Enabled && !Plugin.InReplay)
             {
                 float num = ____audioTimeSyncController.songTime - ____startTime;
-                ____localPosition = Vector3.Lerp(____startPos, ____endPos + new Vector3(0, 0, Camera.main.transform.position.z), num / ____moveDuration);
+                ____localPosition = Vector3.Lerp(____startPos + new Vector3(0, 0, Camera.main.transform.position.z), ____endPos + new Vector3(0, 0, Camera.main.transform.position.z), num / ____moveDuration);
                 Vector3 vector = ____worldRotation * ____localPosition;
                 __instance.transform.localPosition = vector;
                 if (num >= ____moveDuration)
                 {
-                    Action action = ___floorMovementDidFinishEvent;
-                    if (action != null)
-                    {
-                        action();
-                    }
+                    ___floorMovementDidFinishEvent?.Invoke();
                 }
                 __result = vector;
 
@@ -52,18 +48,18 @@ namespace NoteMovementFix.Patches
 
     // Fix ObstacleController to match player position
     [HarmonyPatch(typeof(ObstacleController), nameof(ObstacleController.GetPosForTime))]
-    internal class Yeet4
+    internal class Yeet3
     {
         static bool Prefix(float time, ref Vector3 ____startPos, ref Vector3 ____midPos, ref Vector3 ____endPos, ref float ____move1Duration, ref float ____move2Duration,
             ref PlayerTransforms ____playerTransforms, ref Quaternion ____inverseWorldRotation, ref bool ____passedAvoidedMarkReported, ref float ____passedAvoidedMarkTime,
             ref float ____finishMovementTime, ref float ____endDistanceOffset, ref Vector3 __result)
         {
-            if (Config.Instance.Enabled)
+            if (Config.Instance.Enabled && !Plugin.InReplay)
             {
                 Vector3 vector;
                 if (time < ____move1Duration)
                 {
-                    vector = Vector3.LerpUnclamped(____startPos, ____midPos + new Vector3(0, 0, Camera.main.transform.position.z), (____move1Duration < Mathf.Epsilon) ? 0f : (time / ____move1Duration));
+                    vector = Vector3.LerpUnclamped(____startPos + new Vector3(0, 0, Camera.main.transform.position.z), ____midPos + new Vector3(0, 0, Camera.main.transform.position.z), (____move1Duration < Mathf.Epsilon) ? 0f : (time / ____move1Duration));
                 }
                 else
                 {
@@ -89,11 +85,11 @@ namespace NoteMovementFix.Patches
 
     // Fix FlyingScore to match player position
     [HarmonyPatch(typeof(FlyingScoreSpawner), nameof(FlyingScoreSpawner.SpawnFlyingScore))]
-    internal class Yeet5
+    internal class Yeet4
     {
         static bool Prefix(ref IReadonlyCutScoreBuffer cutScoreBuffer, ref Color color, ref FlyingScoreSpawner __instance, ref FlyingScoreEffect.Pool ____flyingScoreEffectPool, ref FlyingScoreSpawner.InitData ____initData)
         {
-            if (Config.Instance.Enabled)
+            if (Config.Instance.Enabled && !Plugin.InReplay)
             {
                 NoteCutInfo noteCutInfo = cutScoreBuffer.noteCutInfo;
                 Vector3 vector = noteCutInfo.cutPoint;
