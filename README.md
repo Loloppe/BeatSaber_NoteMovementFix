@@ -8,7 +8,7 @@ Why? <br />
 For fun. <br />
 <br />
 Score Submission? <br />
-Enabled, technically there's no way to use this to gain a competitively unfair advantage. <br />
+Enabled, technically there's no way to use this to gain an unfair advantage. <br />
 This actually disable NJS cheesing, which can be considered a disavantage. <br />
 <br />
 Option? <br />
