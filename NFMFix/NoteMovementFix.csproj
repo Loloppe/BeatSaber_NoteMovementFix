@@ -106,6 +106,10 @@
       <HintPath>$(BeatSaberDir)\Beat Saber_Data\Managed\Zenject.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	  <Reference Include="BS_Utils">
+		  <HintPath>$(BeatSaberDir)\Plugins\BS_Utils.dll</HintPath>
+		  <Private>False</Private>
+	  </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />

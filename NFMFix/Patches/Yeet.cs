@@ -10,7 +10,7 @@ namespace NoteMovementFix.Patches
     {
         static bool Prefix(ref float start, ref float end, ref float headOffsetZ, ref float t, ref float __result)
         {
-            if(Config.Instance.Enabled && !Plugin.InReplay)
+            if(Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
             {
                 __result = Mathf.LerpUnclamped(start + headOffsetZ, end + headOffsetZ, t);
                 return false;
@@ -30,14 +30,27 @@ namespace NoteMovementFix.Patches
             if (Config.Instance.Enabled && !Plugin.InReplay)
             {
                 float num = ____audioTimeSyncController.songTime - ____startTime;
-                ____localPosition = Vector3.Lerp(____startPos + new Vector3(0, 0, Camera.main.transform.position.z), ____endPos + new Vector3(0, 0, Camera.main.transform.position.z), num / ____moveDuration);
-                Vector3 vector = ____worldRotation * ____localPosition;
-                __instance.transform.localPosition = vector;
+
+                if(!Config.Instance.DisableFloorMovement)
+                {
+                    if (Config.Instance.DisableNJS)
+                    {
+                        ____localPosition = Vector3.Lerp(____startPos + new Vector3(0, 0, Camera.main.transform.position.z), ____endPos + new Vector3(0, 0, Camera.main.transform.position.z), num / ____moveDuration);
+                    }
+                    else
+                    {
+                        ____localPosition = Vector3.Lerp(____startPos, ____endPos, num / ____moveDuration);
+                    }
+                    Vector3 vector = ____worldRotation * ____localPosition;
+                    __instance.transform.localPosition = vector;
+
+                    __result = vector;
+                }
+                
                 if (num >= ____moveDuration)
                 {
                     ___floorMovementDidFinishEvent?.Invoke();
                 }
-                __result = vector;
 
                 return false;
             }
@@ -54,7 +67,7 @@ namespace NoteMovementFix.Patches
             ref PlayerTransforms ____playerTransforms, ref Quaternion ____inverseWorldRotation, ref bool ____passedAvoidedMarkReported, ref float ____passedAvoidedMarkTime,
             ref float ____finishMovementTime, ref float ____endDistanceOffset, ref Vector3 __result)
         {
-            if (Config.Instance.Enabled && !Plugin.InReplay)
+            if (Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
             {
                 Vector3 vector;
                 if (time < ____move1Duration)
@@ -89,7 +102,7 @@ namespace NoteMovementFix.Patches
     {
         static bool Prefix(ref IReadonlyCutScoreBuffer cutScoreBuffer, ref Color color, ref FlyingScoreSpawner __instance, ref FlyingScoreEffect.Pool ____flyingScoreEffectPool, ref FlyingScoreSpawner.InitData ____initData)
         {
-            if (Config.Instance.Enabled && !Plugin.InReplay)
+            if (Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
             {
                 NoteCutInfo noteCutInfo = cutScoreBuffer.noteCutInfo;
                 Vector3 vector = noteCutInfo.cutPoint;
@@ -118,7 +131,7 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    // Fix NoteJump to match player position
+    // Remove rotation
     [HarmonyPatch(typeof(NoteJump), nameof(NoteJump.ManualUpdate))]
     internal class Yeet5
     {
@@ -148,7 +161,7 @@ namespace NoteMovementFix.Patches
                 }
                 ____localPosition.z = ____playerTransforms.MoveTowardsHead(____startPos.z, ____endPos.z, ____inverseWorldRotation, num2);
                 ____localPosition.y = ____startPos.y + ____startVerticalVelocity * num - ____gravity * num * num * 0.5f;
-                if (____yAvoidance != 0f && num2 < 0.25f)
+                if (!Config.Instance.DisableShuffle && ____yAvoidance != 0f && num2 < 0.25f)
                 {
                     float num3 = 0.5f - Mathf.Cos(num2 * 8f * Mathf.PI) * 0.5f;
                     ____localPosition.y += num3 * ____yAvoidance;
@@ -156,15 +169,22 @@ namespace NoteMovementFix.Patches
                 if (num2 < 0.5f)
                 {
                     Quaternion quaternion;
-                    if (num2 < 0.125f)
+                    if(Config.Instance.DisableRotation)
                     {
-                        quaternion = Quaternion.Slerp(____startRotation, ____middleRotation, Mathf.Sin(num2 * 3.1415927f * 4f));
+                        quaternion = ____endRotation;
                     }
                     else
                     {
-                        quaternion = Quaternion.Slerp(____middleRotation, ____endRotation, Mathf.Sin((num2 - 0.125f) * 3.1415927f * 2f));
+                        if (num2 < 0.125f)
+                        {
+                            quaternion = Quaternion.Slerp(____startRotation, ____middleRotation, Mathf.Sin(num2 * 3.1415927f * 4f));
+                        }
+                        else
+                        {
+                            quaternion = Quaternion.Slerp(____middleRotation, ____endRotation, Mathf.Sin((num2 - 0.125f) * 3.1415927f * 2f));
+                        }
                     }
-                    if (____rotateTowardsPlayer)
+                    if (!Config.Instance.DisableCloseRotation && ____rotateTowardsPlayer)
                     {
                         Vector3 vector = ____playerTransforms.headPseudoLocalPos;
                         vector.y = Mathf.Lerp(vector.y, ____localPosition.y, 0.8f);
@@ -220,6 +240,23 @@ namespace NoteMovementFix.Patches
             }
 
             return true;
+        }
+    }
+
+    // Remove the double note shuffle
+    [HarmonyPatch(typeof(NoteMovement), nameof(NoteMovement.Init))]
+    internal class Yeet6
+    {
+        static void Prefix(ref Vector3 moveStartPos, ref Vector3 moveEndPos, ref Vector3 jumpEndPos)
+        {
+            if (Config.Instance.Enabled && Config.Instance.DisableShuffle && !Plugin.InReplay)
+            {
+                if (Config.Instance.DisableShuffle)
+                {
+                    moveStartPos.x = jumpEndPos.x;
+                    moveEndPos.x = jumpEndPos.x;
+                }
+            }
         }
     }
 }

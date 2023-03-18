@@ -18,6 +18,7 @@ namespace NoteMovementFix
 		internal static IPALogger Log;
 		internal static Harmony harmony;
 		internal static bool InReplay = false;
+		internal static bool Submission = true;
 
 		static class BsmlWrapper
 		{
