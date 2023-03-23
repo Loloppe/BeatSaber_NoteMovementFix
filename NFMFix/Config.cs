@@ -8,12 +8,12 @@ namespace NoteMovementFix
 	internal class Config
 	{
 		public static Config Instance;
-		public virtual bool Enabled { get; set; } = true;
-		public virtual bool DisableShuffle { get; set; } = true;
-		public virtual bool DisableRotation { get; set; } = true;
-		public virtual bool DisableCloseRotation { get; set; } = true;
-		public virtual bool DisableFloorMovement { get; set; } = true;
-		public virtual bool DisableNJS { get; set; } = true;
+		public virtual bool Enabled { get; set; } = false;
+		public virtual bool DisableShuffle { get; set; } = false;
+		public virtual bool DisableRotation { get; set; } = false;
+		public virtual bool DisableCloseRotation { get; set; } = false;
+		public virtual bool DisableFloorMovement { get; set; } = false;
+		public virtual bool DisableNJS { get; set; } = false;
 
 		/// <summary>
 		/// This is called whenever BSIPA reads the config from disk (including when file changes are detected).

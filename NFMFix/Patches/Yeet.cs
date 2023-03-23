@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace NoteMovementFix.Patches
 {
-    // Remove the fixed spawn position
     [HarmonyPatch(typeof(PlayerTransforms), nameof(PlayerTransforms.GetZPos))]
     internal class Yeet
     {
         static bool Prefix(ref float start, ref float end, ref float headOffsetZ, ref float t, ref float __result)
         {
-            if(Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
+            // Remove the fixed spawn position
+            if (Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
             {
                 __result = Mathf.LerpUnclamped(start + headOffsetZ, end + headOffsetZ, t);
                 return false;
@@ -20,7 +20,6 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    // Fix NoteFloorMovement to match player position
     [HarmonyPatch(typeof(NoteFloorMovement), nameof(NoteFloorMovement.ManualUpdate))]
     internal class Yeet2
     {
@@ -31,8 +30,10 @@ namespace NoteMovementFix.Patches
             {
                 float num = ____audioTimeSyncController.songTime - ____startTime;
 
-                if(!Config.Instance.DisableFloorMovement)
+                // Skip movement if disabled
+                if (!Config.Instance.DisableFloorMovement)
                 {
+                    // Fix NoteFloorMovement to match player position
                     if (Config.Instance.DisableNJS)
                     {
                         ____localPosition = Vector3.Lerp(____startPos + new Vector3(0, 0, Camera.main.transform.position.z), ____endPos + new Vector3(0, 0, Camera.main.transform.position.z), num / ____moveDuration);
@@ -59,7 +60,6 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    // Fix ObstacleController to match player position
     [HarmonyPatch(typeof(ObstacleController), nameof(ObstacleController.GetPosForTime))]
     internal class Yeet3
     {
@@ -67,6 +67,7 @@ namespace NoteMovementFix.Patches
             ref PlayerTransforms ____playerTransforms, ref Quaternion ____inverseWorldRotation, ref bool ____passedAvoidedMarkReported, ref float ____passedAvoidedMarkTime,
             ref float ____finishMovementTime, ref float ____endDistanceOffset, ref Vector3 __result)
         {
+            // Fix ObstacleController to match player position
             if (Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
             {
                 Vector3 vector;
@@ -96,12 +97,12 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    // Fix FlyingScore to match player position
     [HarmonyPatch(typeof(FlyingScoreSpawner), nameof(FlyingScoreSpawner.SpawnFlyingScore))]
     internal class Yeet4
     {
         static bool Prefix(ref IReadonlyCutScoreBuffer cutScoreBuffer, ref Color color, ref FlyingScoreSpawner __instance, ref FlyingScoreEffect.Pool ____flyingScoreEffectPool, ref FlyingScoreSpawner.InitData ____initData)
         {
+            // Fix FlyingScore to match player position
             if (Config.Instance.Enabled && Config.Instance.DisableNJS && !Plugin.InReplay)
             {
                 NoteCutInfo noteCutInfo = cutScoreBuffer.noteCutInfo;
@@ -131,7 +132,6 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    // Remove rotation
     [HarmonyPatch(typeof(NoteJump), nameof(NoteJump.ManualUpdate))]
     internal class Yeet5
     {
@@ -169,7 +169,8 @@ namespace NoteMovementFix.Patches
                 if (num2 < 0.5f)
                 {
                     Quaternion quaternion;
-                    if(Config.Instance.DisableRotation)
+                    // Initial rotation become instant and remove the note visual sway.
+                    if (Config.Instance.DisableRotation)
                     {
                         quaternion = ____endRotation;
                     }
@@ -184,6 +185,7 @@ namespace NoteMovementFix.Patches
                             quaternion = Quaternion.Slerp(____middleRotation, ____endRotation, Mathf.Sin((num2 - 0.125f) * 3.1415927f * 2f));
                         }
                     }
+                    // Skip if disabled. Won't look toward the player while near the player.
                     if (!Config.Instance.DisableCloseRotation && ____rotateTowardsPlayer)
                     {
                         Vector3 vector = ____playerTransforms.headPseudoLocalPos;
@@ -243,19 +245,16 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    // Remove the double note shuffle
     [HarmonyPatch(typeof(NoteMovement), nameof(NoteMovement.Init))]
     internal class Yeet6
     {
         static void Prefix(ref Vector3 moveStartPos, ref Vector3 moveEndPos, ref Vector3 jumpEndPos)
         {
+            // Double notes swap become instant.
             if (Config.Instance.Enabled && Config.Instance.DisableShuffle && !Plugin.InReplay)
             {
-                if (Config.Instance.DisableShuffle)
-                {
-                    moveStartPos.x = jumpEndPos.x;
-                    moveEndPos.x = jumpEndPos.x;
-                }
+                moveStartPos.x = jumpEndPos.x;
+                moveEndPos.x = jumpEndPos.x;
             }
         }
     }
