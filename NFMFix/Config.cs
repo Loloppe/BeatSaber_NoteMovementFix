@@ -9,7 +9,6 @@ namespace NoteMovementFix
 	{
 		public static Config Instance;
 		public virtual bool Enabled { get; set; } = false;
-		public virtual bool DisableShuffle { get; set; } = false;
 		public virtual bool DisableRotation { get; set; } = false;
 		public virtual bool DisableCloseRotation { get; set; } = false;
 		public virtual bool DisableFloorMovement { get; set; } = false;
