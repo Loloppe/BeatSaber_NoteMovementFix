@@ -170,7 +170,7 @@ namespace NoteMovementFix.Patches
                 {
                     Quaternion quaternion;
                     // Initial rotation become instant and remove the note visual sway.
-                    if (Config.Instance.DisableRotation)
+                    if (Config.Instance.DisableFloorMovement)
                     {
                         quaternion = ____endRotation;
                     }
