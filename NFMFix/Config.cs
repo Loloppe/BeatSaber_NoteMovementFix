@@ -15,6 +15,7 @@ namespace NoteMovementFix
 		public virtual bool HiddenFloorMovement { get; set; } = false;
 		public virtual bool DisableNJS { get; set; } = false;
 		public virtual bool RemoveHMDPause { get; set; } = false;
+		public virtual bool DisablePause { get; set; } = false;
 
 		/// <summary>
 		/// This is called whenever BSIPA reads the config from disk (including when file changes are detected).

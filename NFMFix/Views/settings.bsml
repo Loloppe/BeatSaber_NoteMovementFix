@@ -4,7 +4,8 @@
 	<checkbox-setting apply-on-change="true" value="HiddenFloorMovement" text="Disable Look Ahead"/>
 	<checkbox-setting apply-on-change="true" value="InstantRotation" text="Instant Note Rotation"/>
 	<checkbox-setting apply-on-change="true" value="InstantSwap" text="Instant Note Swap"/>
-	<checkbox-setting apply-on-change="true" value="RemoveHMDPause" text="Remove Pause on HMD unmount"/>
+	<checkbox-setting apply-on-change="true" value="RemoveHMDPause" text="Remove Pausing on HMD Unmount/Overlay"/>
+	<checkbox-setting apply-on-change="true" value="DisablePause" text="Disable Pausing"/>
 	<horizontal>
 		<text text='Disable Submission' align='Center'/>
 	</horizontal>

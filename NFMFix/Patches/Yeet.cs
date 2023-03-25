@@ -286,4 +286,18 @@ namespace NoteMovementFix.Patches
             return true;
         }
     }
+
+    [HarmonyPatch(typeof(PauseController), nameof(PauseController.HandleMenuButtonTriggered))]
+    internal class Yeet9
+    {
+        static bool Prefix()
+        {
+            if (Config.Instance.Enabled && Config.Instance.DisablePause)
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
 }
