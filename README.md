@@ -1,6 +1,6 @@
 # BeatSaber_NoteMovementFix  
 
-Features (All those features modify gameplay ìn a way or another. Using this plugin is at your own risk if you decide to upload scores with it):  
+Features (All those features modify gameplay in a way or another. Using this plugin is at your own risk if you decide to upload scores with it):  
 - Disable NJS Cheesing
 - Disable Look Ahead
 - Instant Note Rotation
