@@ -9,8 +9,10 @@ namespace NoteMovementFix
 	{
 		public static Config Instance;
 		public virtual bool Enabled { get; set; } = false;
+		public virtual bool InstantRotation { get; set; } = false;
+		public virtual bool InstantShuffle { get; set; } = false;
 		public virtual bool DisableCloseRotation { get; set; } = false;
-		public virtual bool DisableFloorMovement { get; set; } = false;
+		public virtual bool HiddenFloorMovement { get; set; } = false;
 		public virtual bool DisableNJS { get; set; } = false;
 
 		/// <summary>
@@ -32,12 +34,12 @@ namespace NoteMovementFix
 		public virtual void Changed()
 		{
 			// Do stuff when the config is changed.
-			if(Plugin.Submission && DisableCloseRotation)
-			{ 
+			if(Plugin.Submission && (DisableCloseRotation || InstantShuffle))
+			{
 				Plugin.Submission = false;
 				BS_Utils.Gameplay.ScoreSubmission.ProlongedDisableSubmission("NoteMovementFix");
 			}
-			else if(!Plugin.Submission && !DisableCloseRotation)
+			else if(!Plugin.Submission && !DisableCloseRotation && !InstantShuffle)
 			{
 				Plugin.Submission = true;
 				BS_Utils.Gameplay.ScoreSubmission.RemoveProlongedDisable("NoteMovementFix");
