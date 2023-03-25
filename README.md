@@ -4,9 +4,10 @@ Features (All those features modify gameplay ìn a way or another. Using this pl
 - Disable NJS Cheesing (Remove the fixed spawn position and make it playable no matter the player Z position).  
 - Disable Look Ahead (Remove the very fast section before the notes slow down. Very good for muscle memory training or as a challenge).  
 - Instant Note Rotation (Initial rotation become instant and remove the note visual sway).  
+- Instant Note Shuffle (Double notes swap become instant).  
+- Remove Pause on HMD unmount (Self-explanatory).
 
 Features that disable score submission:  
-- Instant Note Shuffle (Double notes swap become instant).  
 - Disable Note Rotation Towards Player (Won't look toward the player while near the player).  
 
 Settings?  
