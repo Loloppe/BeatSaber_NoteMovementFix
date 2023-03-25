@@ -5,7 +5,7 @@ Features (All those features modify gameplay in a way or another. Using this plu
 - Disable Look Ahead
 - Instant Note Rotation
 - Instant Note Swap
-- Remove Pause on HMD unmount/overlay
+- Remove Pausing on HMD unmount/overlay
 - Disable Pausing
 
 Features that disable score submission:  
