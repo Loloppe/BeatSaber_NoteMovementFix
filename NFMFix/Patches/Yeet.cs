@@ -161,7 +161,7 @@ namespace NoteMovementFix.Patches
                 }
                 ____localPosition.z = ____playerTransforms.MoveTowardsHead(____startPos.z, ____endPos.z, ____inverseWorldRotation, num2);
                 ____localPosition.y = ____startPos.y + ____startVerticalVelocity * num - ____gravity * num * num * 0.5f;
-                if (!Config.Instance.InstantShuffle && ____yAvoidance != 0f && num2 < 0.25f)
+                if (!Config.Instance.InstantSwap && ____yAvoidance != 0f && num2 < 0.25f)
                 {
                     float num3 = 0.5f - Mathf.Cos(num2 * 8f * Mathf.PI) * 0.5f;
                     ____localPosition.y += num3 * ____yAvoidance;
@@ -251,11 +251,39 @@ namespace NoteMovementFix.Patches
         static void Prefix(ref Vector3 moveStartPos, ref Vector3 moveEndPos, ref Vector3 jumpEndPos)
         {
             // Double notes swap become instant.
-            if (Config.Instance.Enabled && Config.Instance.InstantShuffle && !Plugin.InReplay)
+            if (Config.Instance.Enabled && Config.Instance.InstantSwap && !Plugin.InReplay)
             {
                 moveStartPos.x = jumpEndPos.x;
                 moveEndPos.x = jumpEndPos.x;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(PauseController), nameof(PauseController.HandleInputFocusWasCaptured))]
+    internal class Yeet7
+    {
+        static bool Prefix()
+        {
+            if(Config.Instance.Enabled && Config.Instance.RemoveHMDPause)
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(PauseController), nameof(PauseController.HandleHMDUnmounted))]
+    internal class Yeet8
+    {
+        static bool Prefix()
+        {
+            if (Config.Instance.Enabled && Config.Instance.RemoveHMDPause)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

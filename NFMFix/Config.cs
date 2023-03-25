@@ -10,10 +10,11 @@ namespace NoteMovementFix
 		public static Config Instance;
 		public virtual bool Enabled { get; set; } = false;
 		public virtual bool InstantRotation { get; set; } = false;
-		public virtual bool InstantShuffle { get; set; } = false;
+		public virtual bool InstantSwap { get; set; } = false;
 		public virtual bool DisableCloseRotation { get; set; } = false;
 		public virtual bool HiddenFloorMovement { get; set; } = false;
 		public virtual bool DisableNJS { get; set; } = false;
+		public virtual bool RemoveHMDPause { get; set; } = false;
 
 		/// <summary>
 		/// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
@@ -34,12 +35,12 @@ namespace NoteMovementFix
 		public virtual void Changed()
 		{
 			// Do stuff when the config is changed.
-			if(Plugin.Submission && (DisableCloseRotation || InstantShuffle))
+			if(Plugin.Submission && DisableCloseRotation)
 			{
 				Plugin.Submission = false;
 				BS_Utils.Gameplay.ScoreSubmission.ProlongedDisableSubmission("NoteMovementFix");
 			}
-			else if(!Plugin.Submission && !DisableCloseRotation && !InstantShuffle)
+			else if(!Plugin.Submission && !DisableCloseRotation)
 			{
 				Plugin.Submission = true;
 				BS_Utils.Gameplay.ScoreSubmission.RemoveProlongedDisable("NoteMovementFix");

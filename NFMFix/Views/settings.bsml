@@ -3,9 +3,10 @@
 	<checkbox-setting apply-on-change="true" value="DisableNJS" text="Disable NJS Cheesing"/>
 	<checkbox-setting apply-on-change="true" value="HiddenFloorMovement" text="Disable Look Ahead"/>
 	<checkbox-setting apply-on-change="true" value="InstantRotation" text="Instant Note Rotation"/>
+	<checkbox-setting apply-on-change="true" value="InstantSwap" text="Instant Note Swap"/>
+	<checkbox-setting apply-on-change="true" value="RemoveHMDPause" text="Remove Pause on HMD unmount"/>
 	<horizontal>
 		<text text='Disable Submission' align='Center'/>
 	</horizontal>
-	<checkbox-setting apply-on-change="true" value="InstantShuffle" text="Instant Note Shuffle"/>
 	<checkbox-setting apply-on-change="true" value="DisableCloseRotation" text="Disable Note Rotation Towards Player"/>
 </settings-container>
