@@ -3,6 +3,7 @@
 Features (All those features modify gameplay in a way or another. Using this plugin is at your own risk if you decide to upload scores with it):  
 - Disable NJS Cheesing
 - Disable Look Ahead
+- Fake Ghost Note
 - Instant Note Rotation
 - Instant Note Swap
 - Remove Pausing on HMD unmount/overlay
