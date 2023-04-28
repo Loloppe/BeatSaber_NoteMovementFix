@@ -2,6 +2,10 @@
 	<checkbox-setting apply-on-change="true" value="Enabled" text="Enable Plugin"/>
 	<checkbox-setting apply-on-change="true" value="DisableNJS" text="Disable NJS Cheesing"/>
 	<checkbox-setting apply-on-change="true" value="HiddenFloorMovement" text="Disable Look Ahead"/>
+	<checkbox-setting apply-on-change="true" value="FakeGhostMode" text="Fake Ghost Mode"/>
+	<checkbox-setting apply-on-change="true" value="FakeGhostNote" text="Make Note Disappear?"/>
+	<checkbox-setting apply-on-change="true" value="FakeGhostArrow" text="Make Arrow Disappear?"/>
+	<slider-setting apply-on-change="true" value="Layer" text="Layer" min="5" max="6" increment="1"/>
 	<checkbox-setting apply-on-change="true" value="InstantRotation" text="Instant Note Rotation"/>
 	<checkbox-setting apply-on-change="true" value="InstantSwap" text="Instant Note Swap"/>
 	<checkbox-setting apply-on-change="true" value="RemoveHMDPause" text="Remove Pausing on HMD Unmount/Overlay"/>

@@ -168,6 +168,20 @@ namespace NoteMovementFix.Patches
                 }
                 if (num2 < 0.5f)
                 {
+                    if(num2 > 0.25f)
+                    {
+                        if (Config.Instance.Enabled && Config.Instance.FakeGhostMode && Config.Instance.FakeGhostArrow)
+                        {
+                            var note = ____rotatedObject.parent.GetComponentsInChildren<Transform>();
+                            foreach (var child in note)
+                            {
+                                if (child.name.Contains("NoteArrow") || child.name.Contains("Circle"))
+                                {
+                                    child.gameObject.layer = (int)Config.Instance.Layer;
+                                }
+                            }
+                        }
+                    }
                     Quaternion quaternion;
                     // Initial rotation become instant and remove the note visual sway.
                     if (Config.Instance.InstantRotation)
@@ -298,6 +312,22 @@ namespace NoteMovementFix.Patches
             }
 
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(NoteFloorMovement), nameof(NoteFloorMovement.Init))]
+    internal class Yeet10
+    {
+        static void Prefix(ref Transform ____rotatedObject)
+        {
+            if (Config.Instance.Enabled && Config.Instance.FakeGhostMode && Config.Instance.FakeGhostNote)
+            {
+                var p = ____rotatedObject.parent;
+                foreach (Transform t in p)
+                {
+                    t.gameObject.layer = (int)Config.Instance.Layer;
+                }
+            }
         }
     }
 }
