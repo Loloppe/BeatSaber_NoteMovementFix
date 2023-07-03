@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace NoteMovementFix.Patches
@@ -265,7 +266,7 @@ namespace NoteMovementFix.Patches
         static void Prefix(ref Vector3 moveStartPos, ref Vector3 moveEndPos, ref Vector3 jumpEndPos)
         {
             // Double notes swap become instant.
-            if (Config.Instance.Enabled && Config.Instance.InstantSwap && !Plugin.InReplay)
+            if (Config.Instance.Enabled && !Plugin.InReplay && Config.Instance.InstantSwap)
             {
                 moveStartPos.x = jumpEndPos.x;
                 moveEndPos.x = jumpEndPos.x;
@@ -327,6 +328,22 @@ namespace NoteMovementFix.Patches
                 {
                     t.gameObject.layer = (int)Config.Instance.Layer;
                 }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(StandardLevelDetailView), nameof(StandardLevelDetailView.RefreshContent))]
+    internal static class Yeet11
+    {
+        static void Postfix(IDifficultyBeatmap ____selectedDifficultyBeatmap)
+        {
+            var hasRequirement = SongCore.Collections.RetrieveDifficultyData(____selectedDifficultyBeatmap)?
+                    .additionalDifficultyData?
+                    ._requirements?.Any(x => x == "Noodle Extensions") == true;
+
+            if (hasRequirement)
+            {
+                Config.Instance.Enabled = false;
             }
         }
     }
