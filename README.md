@@ -1,8 +1,12 @@
 # BeatSaber_NoteMovementFix  
 
-Features (All those features modify gameplay in a way or another. Using this plugin is at your own risk if you decide to upload scores with it):  
+Warning: This plugin isn't purely visual. For example, rotation affect hitbox, althought the difference is completely indistinguishable score-wise.
+All of this could of been done visually. I just took a shortcut out of laziness: rewrote the whole note movement code.
+
+Features:  
 - Disable NJS Cheesing
 - Disable Look Ahead
+- Fake Ghost Note
 - Instant Note Rotation
 - Instant Note Swap
 - Remove Pausing on HMD unmount/overlay
