@@ -40,12 +40,12 @@ namespace NoteMovementFix
 		public virtual void Changed()
 		{
 			// Do stuff when the config is changed.
-			if(Plugin.Submission && DisableCloseRotation)
+			if(Plugin.Submission && (DisableCloseRotation || InstantSwap))
 			{
 				Plugin.Submission = false;
 				BS_Utils.Gameplay.ScoreSubmission.ProlongedDisableSubmission("NoteMovementFix");
 			}
-			else if(!Plugin.Submission && !DisableCloseRotation)
+			else if(!Plugin.Submission && !DisableCloseRotation && !InstantSwap)
 			{
 				Plugin.Submission = true;
 				BS_Utils.Gameplay.ScoreSubmission.RemoveProlongedDisable("NoteMovementFix");
