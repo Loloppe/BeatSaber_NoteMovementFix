@@ -7,12 +7,12 @@ Features:
 - Disable NJS Cheesing
 - Disable Look Ahead
 - Fake Ghost Note
-- Instant Note Rotation
-- Instant Note Swap
+- Instant Note Rotation   
 - Remove Pausing on HMD unmount/overlay
 - Disable Pausing
 
-Features that disable score submission:  
+Features that disable score submission:
+- Instant Note Swap   
 - Disable Note Rotation Towards Player 
 
 Settings?  
