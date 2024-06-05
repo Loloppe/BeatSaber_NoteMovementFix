@@ -5,7 +5,7 @@
   "author": "Loloppe",
   "version": "0.0.8",
   "description": "",
-  "gameVersion": "1.36.2",
+  "gameVersion": "1.37.0",
   "dependsOn": {
     "BSIPA": "^4.2.0"
   }

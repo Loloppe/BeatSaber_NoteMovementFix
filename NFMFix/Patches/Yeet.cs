@@ -336,9 +336,9 @@ namespace NoteMovementFix.Patches
     [HarmonyPatch(typeof(StandardLevelDetailView), nameof(StandardLevelDetailView.RefreshContent))]
     internal static class Yeet11
     {
-        static void Postfix(IDifficultyBeatmap ____selectedDifficultyBeatmap)
+        static void Postfix(ref BeatmapLevel ____beatmapLevel)
         {
-            var hasRequirement = SongCore.Collections.RetrieveDifficultyData(____selectedDifficultyBeatmap)?
+            var hasRequirement = SongCore.Collections.RetrieveDifficultyData(____beatmapLevel, ____beatmapLevel.GetBeatmapKeys().FirstOrDefault())?
                     .additionalDifficultyData?
                     ._requirements?.Any(x => x == "Noodle Extensions") == true;
 
