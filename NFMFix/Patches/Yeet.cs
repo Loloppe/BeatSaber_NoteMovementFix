@@ -275,7 +275,7 @@ namespace NoteMovementFix.Patches
         }
     }
 
-    [HarmonyPatch(typeof(PauseController), nameof(PauseController.HandleInputFocusWasCaptured))]
+    [HarmonyPatch(typeof(PauseController), nameof(PauseController.HandleFocusWasCaptured))]
     internal class Yeet7
     {
         static bool Prefix()

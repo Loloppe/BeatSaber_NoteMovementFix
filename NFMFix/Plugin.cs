@@ -28,7 +28,7 @@ namespace NoteMovementFix
 			{
 				try
 				{
-					void wrap() => GameplaySetup.instance.AddTab("NoteMovementFix", "NoteMovementFix.Views.settings.bsml", Config.Instance, MenuType.All);
+					void wrap() => GameplaySetup.Instance.AddTab("NoteMovementFix", "NoteMovementFix.Views.settings.bsml", Config.Instance, MenuType.All);
 
 					if (hasBsml)
 					{
@@ -43,7 +43,7 @@ namespace NoteMovementFix
 			}
 			public static void DisableUI()
 			{
-				void wrap() => GameplaySetup.instance.RemoveTab("NoteMovementFix");
+				void wrap() => GameplaySetup.Instance.RemoveTab("NoteMovementFix");
 
 				if (hasBsml)
 				{
@@ -66,8 +66,13 @@ namespace NoteMovementFix
 		{
 			SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
-			BsmlWrapper.EnableUI();
-		}
+            BeatSaberMarkupLanguage.Util.MainMenuAwaiter.MainMenuInitializing += MainMenuInit;
+        }
+
+        public void MainMenuInit()
+        {
+            BsmlWrapper.EnableUI();
+        }
 
 		private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
 		{
