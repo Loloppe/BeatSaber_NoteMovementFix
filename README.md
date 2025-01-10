@@ -4,7 +4,7 @@ Warning: This plugin isn't purely visual. For example, rotation affect hitbox, a
 All of this could of been done visually. I just took a shortcut out of laziness: rewrote the whole note movement code.
 
 Features:  
-- Disable NJS Cheesing
+- ~~Disable NJS Cheesing~~ Not a thing anymore since 1.40.0.
 - Disable Look Ahead
 - Fake Ghost Note
 - Instant Note Rotation   
