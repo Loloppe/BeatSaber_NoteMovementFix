@@ -13,7 +13,6 @@ namespace NoteMovementFix
 		public virtual bool InstantSwap { get; set; } = false;
 		public virtual bool DisableCloseRotation { get; set; } = false;
 		public virtual bool HiddenFloorMovement { get; set; } = false;
-		public virtual bool DisableNJS { get; set; } = false;
 		public virtual bool FakeGhostMode { get; set; } = false;
 		public virtual bool FakeGhostNote { get; set; } = true;
 		public virtual bool FakeGhostArrow { get; set; } = true;
